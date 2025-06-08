@@ -1,0 +1,134 @@
+** start of index.html **
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Telephone Validator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📞 US Phone Validator</h1>
+    <input type="text" id="user-input" placeholder="Enter phone number" />
+    <div class="buttons">
+      <button id="check-btn">Check</button>
+      <button id="clear-btn">Clear</button>
+    </div>
+    <p id="results-div"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+** end of index.html **
+
+** start of styles.css **
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #fdf6e3, #dbeafe);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #2d3748;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border: 2px solid #a0aec0;
+  border-radius: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #1e40af;
+}
+
+#results-div {
+  font-weight: bold;
+  font-size: 16px;
+  color: #2d3748;
+}
+
+
+** end of styles.css **
+
+** start of script.js **
+
+const input = document.getElementById('user-input');
+const checkBtn = document.getElementById('check-btn');
+const clearBtn = document.getElementById('clear-btn');
+const resultsDiv = document.getElementById('results-div');
+
+checkBtn.addEventListener('click', () => {
+  const number = input.value.trim();
+  if (!number) {
+    alert("Please provide a phone number");
+    return;
+  }
+
+  const isValid = validatePhoneNumber(number);
+  resultsDiv.textContent = `${isValid ? "Valid" : "Invalid"} US number: ${number}`;
+});
+
+clearBtn.addEventListener('click', () => {
+  resultsDiv.textContent = '';
+});
+
+function validatePhoneNumber(num) {
+  const regex = /^(1\s?)?(\(\d{3}\)|\d{3})([\s-]?)\d{3}([\s-]?)\d{4}$/;
+  const allowedOnlyDigits = num.replace(/[\s()-]/g, '');
+  if (/[^0-9\s()-]/.test(num)) return false;
+  if (/^\d+$/.test(allowedOnlyDigits)) {
+    if (allowedOnlyDigits.length === 10) return regex.test(num);
+    if (allowedOnlyDigits.length === 11 && allowedOnlyDigits.startsWith('1')) return regex.test(num);
+    return false;
+  }
+  return regex.test(num);
+}
+
+
+** end of script.js **
+
